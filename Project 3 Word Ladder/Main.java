@@ -20,6 +20,7 @@ import java.io.*;
 public class Main {
 	
 	// static variables and constants only here.
+	int counter;
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -60,7 +61,7 @@ public class Main {
 		input = keyboard.nextLine();
 		StringBuilder copyinput = new StringBuilder(input);
 		
-		if(input.equals("/quit")){
+		if(input.contains("/quit")){
 			return null;
 		}
 		
@@ -72,11 +73,15 @@ public class Main {
 		}
 		i++;
 		String endWord = "";
-		for( ; copyinput.charAt(i) != 32 && input.charAt(i) != 9 && input.charAt(i) != 10; i++){
+		for( ; i < input.length(); i++){
 			endWord += input.charAt(i);
 		}
 		
-		return null;
+		ArrayList<String> list = new ArrayList<String>();
+		list.add(startWord);
+		list.add(endWord);
+		
+		return list;
 	}
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
@@ -86,6 +91,8 @@ public class Main {
 		// TODO some code
 		Set<String> dict = makeDictionary();
 		// TODO more code
+		
+		
 		
 		return null; // replace this line later with real return
 	}

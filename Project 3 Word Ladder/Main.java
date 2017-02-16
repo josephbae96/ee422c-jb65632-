@@ -55,7 +55,27 @@ public class Main {
 	 * If command is /quit, return empty ArrayList. 
 	 */
 	public static ArrayList<String> parse(Scanner keyboard) {
-		// TO DO
+		//
+		String input = "";
+		input = keyboard.nextLine();
+		StringBuilder copyinput = new StringBuilder(input);
+		
+		if(input.equals("/quit")){
+			return null;
+		}
+		
+		String startWord = "";
+		//loop breaks if a " ", a [tab] or \n is found
+		int i = 0;
+		for( ; copyinput.charAt(i) != 32 && input.charAt(i) != 9 && input.charAt(i) != 10; i++){
+			startWord += input.charAt(i);
+		}
+		i++;
+		String endWord = "";
+		for( ; copyinput.charAt(i) != 32 && input.charAt(i) != 9 && input.charAt(i) != 10; i++){
+			endWord += input.charAt(i);
+		}
+		
 		return null;
 	}
 	

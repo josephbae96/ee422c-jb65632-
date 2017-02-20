@@ -56,7 +56,6 @@ public class Main {
 	 * If command is /quit, return empty ArrayList. 
 	 */
 	public static ArrayList<String> parse(Scanner keyboard) {
-		//
 		String input = "";
 		input = keyboard.nextLine();
 		StringBuilder copyinput = new StringBuilder(input);
@@ -68,7 +67,7 @@ public class Main {
 		String startWord = "";
 		//loop breaks if a " ", a [tab] or \n is found
 		int i = 0;
-		for( ; copyinput.charAt(i) != 32 && input.charAt(i) != 9 && input.charAt(i) != 10; i++){
+		for( ; copyinput.charAt(i) != ' ' && input.charAt(i) != '\n' && input.charAt(i) != '\t'; i++){
 			startWord += input.charAt(i);
 		}
 		i++;
@@ -78,8 +77,8 @@ public class Main {
 		}
 		
 		ArrayList<String> list = new ArrayList<String>();
-		list.add(startWord);
-		list.add(endWord);
+		list.add(startWord.toLowerCase());
+		list.add(endWord.toLowerCase());
 		
 		return list;
 	}
@@ -98,10 +97,20 @@ public class Main {
 	}
 	
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
-		
-		// TODO some code
+    	LinkedList<ArrayList<String>> queue = new LinkedList<ArrayList<String>>();//store paths to end word
+    	ArrayList<String> tempPath = new ArrayList<String>();
+    	tempPath.add(start);
+    	queue.add(tempPath);
 		Set<String> dict = makeDictionary();
-		// TODO more code
+		dict.remove(start.toUpperCase());
+		
+		while (!queue.isEmpty()) {
+			ArrayList<String> path = queue.remove();
+			if (path.contains(end)) {
+				return path;
+			}
+			//iterate thru dict and compare
+		}
 		
 		return null; // replace this line later with real return
 	}

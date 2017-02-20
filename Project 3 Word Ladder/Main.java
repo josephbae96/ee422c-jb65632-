@@ -38,6 +38,10 @@ public class Main {
 		initialize();
 		
 		// TODO methods to read in words, output ladder
+		//temporary test
+		ArrayList<String> words = parse(kb);
+		ArrayList<String> ladder = getWordLadderBFS(words.get(0), words.get(1));
+		printLadder(ladder);
 	}
 	
 	public static void initialize() {
@@ -109,10 +113,31 @@ public class Main {
 			if (path.contains(end)) {
 				return path;
 			}
-			//iterate thru dict and compare
+			Iterator<String> itr = dict.iterator();
+			while (itr.hasNext()) {
+				String wordInPath = path.get(path.size()-1);
+				String wordInDict = itr.next();
+				int letterChanges = 0;
+				for (int i = 0; i < wordInPath.length(); i++) {
+					if (wordInPath.charAt(i) != (wordInDict.charAt(i) + ('a' - 'A'))) {
+						letterChanges += 1;
+					}
+				}
+				if (letterChanges == 1) {
+					ArrayList<String> newPath = new ArrayList<String>();
+					newPath.addAll(path);
+					newPath.add(wordInDict.toLowerCase());
+					queue.add(newPath);
+					itr.remove();
+				}
+				
+			}
 		}
 		
-		return null; // replace this line later with real return
+		ArrayList<String> ladder = new ArrayList<String>();
+		ladder.add(start);
+		ladder.add(end);
+		return ladder;
 	}
     
 	public static Set<String>  makeDictionary () {
@@ -132,7 +157,9 @@ public class Main {
 	}
 	
 	public static void printLadder(ArrayList<String> ladder) {
-		
+		for (int i = 0; i < ladder.size(); i++) {
+			System.out.println(ladder.get(i));
+		}
 	}
 	// TODO
 	// Other private static methods here

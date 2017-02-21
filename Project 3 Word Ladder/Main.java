@@ -101,9 +101,9 @@ public class Main {
 					//append the rest of the original word
 					nextWord.append(s.charAt(k));
 				}
-				if (dict.contains(nextWord)) {
+				String string = nextWord.toString();
+				if (dict.contains(string.toUpperCase())) {
 					//if word is in dict, add to list
-					String string = nextWord.toString();
 					list.add(string);
 				}
 			}

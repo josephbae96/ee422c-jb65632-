@@ -52,9 +52,6 @@ public class Main {
 		// We will call this method before running our JUNIT tests.  So call it 
 		// only once at the start of main.
 		
-		
-		
-		
 	}
 	
 	/**
@@ -73,52 +70,70 @@ public class Main {
 	}
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
-		
-		// Returned list should be ordered start to end.  Include start and end.
-		// Return empty list if no ladder.
-		// TODO some code
-		Set<String> dict = makeDictionary();
-		// TODO more code
-		
-		
-		
-		return null; // replace this line later with real return
+			ArrayList ladderPath = new ArrayList<String>();
+			ladderPath.add(start);
+			Set<String> dict = makeDictionary();
+			StringBuilder newString = new StringBuilder(start);
+			for(int i = 0; i < 26; i++){
+				//newString(0) = 
+			}//with real return
+			return null;
 	}
 	
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
-    	LinkedList<ArrayList<String>> queue = new LinkedList<ArrayList<String>>();//store paths to end word
+    	if (start.equals(end)){
+    		ArrayList<String> ladder = new ArrayList<String>();
+    		ladder.add(start);
+    		ladder.add(end);
+    		return ladder;
+    	}
+    	//stores all possible paths to get to the end word
+    	LinkedList<ArrayList<String>> queue = new LinkedList<ArrayList<String>>();
     	ArrayList<String> tempPath = new ArrayList<String>();
     	tempPath.add(start);
     	queue.add(tempPath);
 		Set<String> dict = makeDictionary();
 		dict.remove(start.toUpperCase());
-		
+		//runs queue runs out
 		while (!queue.isEmpty()) {
+			//takes out the current path so we can extend the path to the end word
 			ArrayList<String> path = queue.remove();
+			//checks to see if we found a path to the end word
 			if (path.contains(end)) {
 				return path;
 			}
+			//iterates through the dictionary to find one letter difference of word
 			Iterator<String> itr = dict.iterator();
+			//while the dictionary has more words to be able to iterate through
 			while (itr.hasNext()) {
+				//gets the last word in the path
 				String wordInPath = path.get(path.size()-1);
+				//gets the next in the dictionary
 				String wordInDict = itr.next();
+				//enters differByOne method which checks if there's a 1 letter difference between words
 				if (differByOne(wordInPath, wordInDict)) {
+					//if it is, creates a new path
 					ArrayList<String> newPath = new ArrayList<String>();
+					//takes all the words from the new path, adds them and then adds the new word
 					newPath.addAll(path);
+					//adds the dictionary word and makes it all lowercase
 					newPath.add(wordInDict.toLowerCase());
+					//adds the new path to the queue so it can be checked later
 					queue.add(newPath);
+					//removes the word from the dictionary
 					itr.remove();
 				}
 				
 			}
 		}
-		
+		//iff the end word was not found, it just returns the start word and the end word
 		ArrayList<String> ladder = new ArrayList<String>();
 		ladder.add(start);
 		ladder.add(end);
 		return ladder;
 	}
     
+    //checks to see if the dictionary word and our current word is different by one letter
     public static boolean differByOne(String s1, String s2) {
 		int letterChanges = 0;
 		for (int i = 0; i < s1.length(); i++) {
@@ -146,9 +161,12 @@ public class Main {
 	}
 	
 	public static void printLadder(ArrayList<String> ladder) {
+		//checks the ladder size to see if there were only two words, the start and the end word which means it doesn't exist
 		if (ladder.size() == 2) {
 			System.out.println("no word ladder can be found between " + ladder.get(0) + " and " + ladder.get(1) + ".");
-		} else {
+		} 
+		//
+		else {
 			System.out.println("a " + (ladder.size()-2) + "-rung word ladder exists between " + ladder.get(0) + " and " + ladder.get(ladder.size()-1) + ".");
 			for (int i = 0; i < ladder.size(); i++) {
 				System.out.println(ladder.get(i));

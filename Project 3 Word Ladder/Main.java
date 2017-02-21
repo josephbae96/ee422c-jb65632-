@@ -40,8 +40,13 @@ public class Main {
 		// TODO methods to read in words, output ladder
 		//temporary test
 		ArrayList<String> words = parse(kb);
-		ArrayList<String> ladder = getWordLadderBFS(words.get(0), words.get(1));
-		printLadder(ladder);
+//		ArrayList<String> ladder = getWordLadderBFS(words.get(0), words.get(1));
+//		printLadder(ladder);
+		if (words == null){
+			return;
+		}
+		System.out.println(words);
+		
 	}
 	
 	public static void initialize() {
@@ -60,31 +65,13 @@ public class Main {
 	 * If command is /quit, return empty ArrayList. 
 	 */
 	public static ArrayList<String> parse(Scanner keyboard) {
-		String input = "";
-		input = keyboard.nextLine();
-		StringBuilder copyinput = new StringBuilder(input);
-		
-		if(input.contains("/quit")){
+		ArrayList inputs = new ArrayList<String>();
+		inputs.add(keyboard.next());
+		inputs.add(keyboard.next());
+		if(inputs.contains("/quit")){							
 			return null;
-		}
-		
-		String startWord = "";
-		//loop breaks if a " ", a [tab] or \n is found
-		int i = 0;
-		for( ; copyinput.charAt(i) != ' ' && input.charAt(i) != '\n' && input.charAt(i) != '\t'; i++){
-			startWord += input.charAt(i);
-		}
-		i++;
-		String endWord = "";
-		for( ; i < input.length(); i++){
-			endWord += input.charAt(i);
-		}
-		
-		ArrayList<String> list = new ArrayList<String>();
-		list.add(startWord.toLowerCase());
-		list.add(endWord.toLowerCase());
-		
-		return list;
+		} 
+		return inputs;
 	}
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {

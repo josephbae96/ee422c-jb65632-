@@ -83,6 +83,36 @@ public class Main {
 			return null;
 	}
 	
+	public static String[] getAllNext(String s, Set<String> dict) {
+		ArrayList<String> list = new ArrayList<String>();//new arraylist for mutants
+		for (int i = 0; i < s.length(); i++) {
+			StringBuilder next = new StringBuilder();
+			int k;
+			for (k = 0; k < i; k++) {
+				//append all chars up until the one you want to change
+				next.append(s.charAt(k));
+			}
+			for (int j = 0; j < 26; j++) {
+				StringBuilder nextWord = new StringBuilder();
+				nextWord.append(next);
+				//start by changing to a, then b, etc
+				nextWord.append('a'+j);
+				for (k = k+1; k < s.length(); k++) {
+					//append the rest of the original word
+					nextWord.append(s.charAt(k));
+				}
+				if (dict.contains(nextWord)) {
+					//if word is in dict, add to list
+					String string = nextWord.toString();
+					list.add(string);
+				}
+			}
+		}
+		//convert list to array, return array
+		String[] arr = list.toArray(new String[list.size()]);
+		return arr;
+	}
+	
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
     	if (start.equals(end)){
     		ArrayList<String> ladder = new ArrayList<String>();

@@ -40,11 +40,33 @@ public class Main {
 		ArrayList<String> words = parse(kb);
 		
 		while (words != null) {
-			ArrayList<String> ladder = getWordLadderBFS(words.get(0), words.get(1));
+			ArrayList<String> ladder = getWordLadderDFS(words.get(0), words.get(1));
 			printLadder(ladder);
+			/*for (int i = 0; i < ladder.size()-1; i++) {
+				String s1 = ladder.get(i);
+				String s2 = ladder.get(i+1);
+				if(differ_by_One(s1,s2)) {
+					System.out.println("u good");
+				} else {
+					System.out.println("u fukt up");
+				}
+			}*/
 			words = parse(kb);
 		}
 	}
+	
+	/*public static boolean differ_by_One (String s1, String s2) {
+		int diff = 0;
+		for (int i = 0; i < s1.length(); i++) {
+			if (s1.charAt(i) != s2.charAt(i)) {
+				diff += 1;
+				if (diff > 1) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}*/
 	
 	public static void initialize() {
 		// initialize your static variables or constants here.
@@ -73,13 +95,51 @@ public class Main {
 	
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
 			ArrayList ladderPath = new ArrayList<String>();
-			ladderPath.add(start);
+			//ladderPath.add(start);
+			ArrayList usedWords = new ArrayList<String>();
 			Set<String> dict = makeDictionary();
-			StringBuilder newString = new StringBuilder(start);
-			for(int i = 0; i < 26; i++){
-				//newString(0) = 
-			}//with real return
-			return null;
+			ArrayList<String> pathDFS = makeDFSTree(start, end, dict, usedWords, ladderPath);
+			//StringBuilder newString = new StringBuilder(start);
+
+			if (pathDFS == null) {
+				ArrayList<String> ladder = new ArrayList<String>();
+				ladder.add(start);
+				ladder.add(end);
+				return ladder;
+			} else {
+				return pathDFS;
+			}
+	}
+	
+	public static ArrayList<String> makeDFSTree(String start, String end, Set<String> dict, ArrayList<String> usedWords, ArrayList<String> path){
+		String[] wordCombinations = getAllNext(start, dict);
+		usedWords.add(start);
+		path.add(start);
+		if (path.contains(end)){
+			return path;
+		}
+		for(int i = 0; i < wordCombinations.length; i++){
+			while (usedWords.contains(wordCombinations[i])){
+				i++;
+				if (i >= wordCombinations.length){
+					//path.add(null);
+					path.remove(start);
+					return null;
+				}
+			}
+			//else if(path.contains(null)){
+				//path.remove(null);
+				//path.remove(start);
+				
+			//}
+			
+			ArrayList<String> newPath = makeDFSTree(wordCombinations[i], end, dict, usedWords, path);
+			if (newPath!=null && newPath.contains(end)){
+				return newPath;
+			}
+		}
+		path.remove(start);
+		return null;	
 	}
 	
 	public static String[] getAllNext(String s, Set<String> dict) {

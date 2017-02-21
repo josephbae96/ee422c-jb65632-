@@ -62,6 +62,9 @@ public class Main {
 	public static ArrayList<String> parse(Scanner keyboard) {
 		ArrayList<String> inputs = new ArrayList<String>();
 		inputs.add(keyboard.next());
+		if(inputs.contains("/quit")){							
+			return null;
+		} 
 		inputs.add(keyboard.next());
 		if(inputs.contains("/quit")){							
 			return null;

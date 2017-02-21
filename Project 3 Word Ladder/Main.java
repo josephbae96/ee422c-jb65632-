@@ -61,11 +61,11 @@ public class Main {
 	 */
 	public static ArrayList<String> parse(Scanner keyboard) {
 		ArrayList<String> inputs = new ArrayList<String>();
-		inputs.add(keyboard.next());
+		inputs.add(keyboard.next().toLowerCase());
 		if(inputs.contains("/quit")){							
 			return null;
 		} 
-		inputs.add(keyboard.next());
+		inputs.add(keyboard.next().toLowerCase());
 		if(inputs.contains("/quit")){							
 			return null;
 		} 

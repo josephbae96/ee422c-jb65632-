@@ -44,7 +44,6 @@ public class Main {
 			printLadder(ladder);
 			words = parse(kb);
 		}
-		
 	}
 	
 	public static void initialize() {
@@ -92,17 +91,18 @@ public class Main {
 				//append all chars up until the one you want to change
 				next.append(s.charAt(k));
 			}
-			for (int j = 0; j < 26; j++) {
+			for (char j = 0; j < 26; j++) {
 				StringBuilder nextWord = new StringBuilder();
 				nextWord.append(next);
 				//start by changing to a, then b, etc
-				nextWord.append('a'+j);
-				for (k = k+1; k < s.length(); k++) {
+				char c = (char)('a'+j);
+				nextWord.append(c);
+				for (int l = k+1; l < s.length(); l++) {
 					//append the rest of the original word
-					nextWord.append(s.charAt(k));
+					nextWord.append(s.charAt(l));
 				}
 				String string = nextWord.toString();
-				if (dict.contains(string.toUpperCase())) {
+				if (dict.contains(string.toUpperCase()) && !string.equals(s)) {
 					//if word is in dict, add to list
 					list.add(string);
 				}

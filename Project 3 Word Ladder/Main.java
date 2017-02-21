@@ -37,15 +37,13 @@ public class Main {
 		}
 		initialize();
 		
-		// TODO methods to read in words, output ladder
-		//temporary test
 		ArrayList<String> words = parse(kb);
-//		ArrayList<String> ladder = getWordLadderBFS(words.get(0), words.get(1));
-//		printLadder(ladder);
-		if (words == null){
-			return;
+		
+		while (words != null) {
+			ArrayList<String> ladder = getWordLadderBFS(words.get(0), words.get(1));
+			printLadder(ladder);
+			words = parse(kb);
 		}
-		System.out.println(words);
 		
 	}
 	
@@ -65,7 +63,7 @@ public class Main {
 	 * If command is /quit, return empty ArrayList. 
 	 */
 	public static ArrayList<String> parse(Scanner keyboard) {
-		ArrayList inputs = new ArrayList<String>();
+		ArrayList<String> inputs = new ArrayList<String>();
 		inputs.add(keyboard.next());
 		inputs.add(keyboard.next());
 		if(inputs.contains("/quit")){							
@@ -104,13 +102,7 @@ public class Main {
 			while (itr.hasNext()) {
 				String wordInPath = path.get(path.size()-1);
 				String wordInDict = itr.next();
-				int letterChanges = 0;
-				for (int i = 0; i < wordInPath.length(); i++) {
-					if (wordInPath.charAt(i) != (wordInDict.charAt(i) + ('a' - 'A'))) {
-						letterChanges += 1;
-					}
-				}
-				if (letterChanges == 1) {
+				if (differByOne(wordInPath, wordInDict)) {
 					ArrayList<String> newPath = new ArrayList<String>();
 					newPath.addAll(path);
 					newPath.add(wordInDict.toLowerCase());
@@ -125,6 +117,16 @@ public class Main {
 		ladder.add(start);
 		ladder.add(end);
 		return ladder;
+	}
+    
+    public static boolean differByOne(String s1, String s2) {
+		int letterChanges = 0;
+		for (int i = 0; i < s1.length(); i++) {
+			if ((s1.charAt(i) != (s2.charAt(i) + ('a' - 'A'))) && ++letterChanges > 1) {
+				return false;
+			}
+		}
+		return true;
 	}
     
 	public static Set<String>  makeDictionary () {
@@ -144,8 +146,13 @@ public class Main {
 	}
 	
 	public static void printLadder(ArrayList<String> ladder) {
-		for (int i = 0; i < ladder.size(); i++) {
-			System.out.println(ladder.get(i));
+		if (ladder.size() == 2) {
+			System.out.println("no word ladder can be found between " + ladder.get(0) + " and " + ladder.get(1) + ".");
+		} else {
+			System.out.println("a " + (ladder.size()-2) + "-rung word ladder exists between " + ladder.get(0) + " and " + ladder.get(ladder.size()-1) + ".");
+			for (int i = 0; i < ladder.size(); i++) {
+				System.out.println(ladder.get(i));
+			}
 		}
 	}
 	// TODO

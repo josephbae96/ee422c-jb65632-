@@ -20,7 +20,6 @@ import java.io.*;
 public class Main {
 	
 	// static variables and constants only here.
-	int counter;
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -37,26 +36,32 @@ public class Main {
 		}
 		initialize();
 		
-		//ArrayList<String> words = parse(kb);
+		ArrayList<String> words = parse(kb);
 		
-		/*while (words != null) {
-			ArrayList<String> ladder = getWordLadderDFS(words.get(0), words.get(1));
+		while (words != null) {
+			ArrayList<String> ladder = getWordLadderBFS(words.get(0), words.get(1));
 			printLadder(ladder);
+			
+			//we used this to test whether or not our ladders (mainly the long DFS ones) were valid
+			/*System.out.println("TESTING VALIDITY NOW");
 			for (int i = 0; i < ladder.size()-1; i++) {
 				String s1 = ladder.get(i);
 				String s2 = ladder.get(i+1);
-				if(differ_by_One(s1,s2)) {
-					//System.out.println("u good");
-				} else {
-					System.out.println("u fukt up");
+				if(!differ_by_One(s1,s2)) {
+					System.out.println("mistake found!");
 					System.out.println(s1);
 					System.out.println(s2);
 				}
 			}
-			System.out.println("done");
+			System.out.println("done");*/
+			
+			
 			words = parse(kb);
-		}*/
-		Set<String> dict = makeDictionary();
+		}
+		
+		//this was used to cycle through numerous test cases and to check 
+		//the validity of each ladder produced
+		/*Set<String> dict = makeDictionary();
 		Iterator<String> i = dict.iterator();
 		int counter = 0;
 		while (i.hasNext() && counter < 5000) {
@@ -95,9 +100,14 @@ public class Main {
 				System.out.println(counter + " tests done so far!");
 			}
 		}
-		System.out.println("testing done");
+		System.out.println("testing done");*/
 	}
 	
+	/**
+	 * Assumes s1 and s2 are both lower-case.
+	 * @param s1, s2 to be compared
+	 * @return true if the words differ by one letter, false otherwise
+	 */
 	public static boolean differ_by_One (String s1, String s2) {
 		int diff = 0;
 		for (int i = 0; i < s1.length(); i++) {
@@ -136,24 +146,63 @@ public class Main {
 		return inputs;
 	}
 	
+	/**
+	 * 
+	 * @param start, first word for ladder
+	 * @param end, last word for ladder
+	 * @return word ladder from start to end using DFS, or a ladder with only start and end
+	 * if no word ladder exists for the two words given
+	 */
 	public static ArrayList<String> getWordLadderDFS(String start, String end) {
-			ArrayList ladderPath = new ArrayList<String>();
-			//ladderPath.add(start);
-			ArrayList usedWords = new ArrayList<String>();
-			Set<String> dict = makeDictionary();
-			ArrayList<String> pathDFS = makeDFSTree(start, end, dict, usedWords, ladderPath);
-			//StringBuilder newString = new StringBuilder(start);
+		if (start.equals(end)) {
+			ArrayList<String> ladder = new ArrayList<String>();
+			ladder.add(start);
+			ladder.add(end);
+			return ladder;
+		}
+		ArrayList ladderPath = new ArrayList<String>();
+		ArrayList usedWords = new ArrayList<String>();
+		Set<String> dict = makeDictionary();
+		ArrayList<String> pathDFS = makeDFSTree(start, end, dict, usedWords, ladderPath);
 
-			if (pathDFS == null) {
-				ArrayList<String> ladder = new ArrayList<String>();
-				ladder.add(start);
-				ladder.add(end);
-				return ladder;
-			} else {
-				return pathDFS;
+		if (pathDFS == null) {
+			ArrayList<String> ladder = new ArrayList<String>();
+			ladder.add(start);
+			ladder.add(end);
+			return ladder;
+		} else {
+			//shorten DFS ladder
+			for (int i = 0; i < pathDFS.size()-2; i++) {
+				String s1 = pathDFS.get(i);
+				String s2 = pathDFS.get(i+2);
+				if (differ_by_One(s1,s2)) {
+					int k;
+					for (k = i+3; k < pathDFS.size(); k++) {
+						s2 = pathDFS.get(k);
+						if (!differ_by_One(s1,s2)) {
+							break;
+						}
+					}
+					for (int j = i+1; j < k-1; k--) {
+						pathDFS.remove(j);
+					}
+				}
 			}
+			
+			return pathDFS;
+		}
 	}
 	
+	/**
+	 * Helper function called by getWordLadderDFS, recursively finds ladder using depth-first search
+	 * Created in order to pass parameters not passed by getWordLadderDFS
+	 * @param start, first word of word ladder
+	 * @param end, last word of word ladder
+	 * @param dict, dictionary to pull valid words from
+	 * @param usedWords, records visited words so that they don't repeat
+	 * @param path, keeps track of valid path from start to end word
+	 * @return path if path from start to end is found, else return null
+	 */
 	public static ArrayList<String> makeDFSTree(String start, String end, Set<String> dict, ArrayList<String> usedWords, ArrayList<String> path){
 		String[] wordCombinations = getAllNext(start, dict);
 		usedWords.add(start);
@@ -185,8 +234,14 @@ public class Main {
 		return null;	
 	}
 	
+	/**
+	 * Helper function that finds all valid one-letter variants for the word passed in
+	 * @param s, word for which we find one-letter variants for
+	 * @param dict, dictionary used to ensure we only use valid words
+	 * @return String array of all one-letter variants found in dict
+	 */
 	public static String[] getAllNext(String s, Set<String> dict) {
-		ArrayList<String> list = new ArrayList<String>();//new arraylist for mutants
+		ArrayList<String> list = new ArrayList<String>();//new arraylist for variants
 		for (int i = 0; i < s.length(); i++) {
 			StringBuilder next = new StringBuilder();
 			int k;
@@ -216,6 +271,13 @@ public class Main {
 		return arr;
 	}
 	
+	/**
+	 * Finds word ladder from start word to end word using breadth-first search method.
+	 * @param start, first word in ladder
+	 * @param end, second word in ladder
+	 * @return word ladder between start and end, or a ladder containing only start and end
+	 * if no valid ladder exists
+	 */
     public static ArrayList<String> getWordLadderBFS(String start, String end) {
     	if (start.equals(end)){
     		ArrayList<String> ladder = new ArrayList<String>();
@@ -269,7 +331,12 @@ public class Main {
 		return ladder;
 	}
     
-    //checks to see if the dictionary word and our current word is different by one letter
+    /**
+     * checks to see if the dictionary word and our current word is different by one letter
+     * @param s1, current word in question
+     * @param s2, word from the dictionary
+     * @return true if off by one, false otherwise
+     */
     public static boolean differByOne(String s1, String s2) {
 		int letterChanges = 0;
 		for (int i = 0; i < s1.length(); i++) {

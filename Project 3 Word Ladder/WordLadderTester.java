@@ -120,6 +120,74 @@ public class WordLadderTester {
 		}
 		assertTrue(res == null || res.size() == 0 || res.size() == 2);
 	}
+	
+	@Test(timeout = 30000)
+	public void BFS_no_ladder() {
+		ArrayList<String> res = Main.getWordLadderBFS("duvet", "aloof");
+		if (res != null) {
+			HashSet<String> set = new HashSet<String>(res);
+			assertEquals(set.size(), res.size());
+		}
+		assertTrue(res.size() == 2 && res.get(0).equals("duvet") && res.get(1).equals("aloof"));
+	}
+	
+	@Test
+	public void BFS_reverse_ladder() {
+		ArrayList<String> res1 = Main.getWordLadderBFS("smart", "money");
+		ArrayList<String> res2 = Main.getWordLadderBFS("money", "smart");
+		assertTrue(res1.size() == res2.size());
+	}
+	
+	@Test(timeout = 30000)
+	public void BFS_valid_ladder() {
+		ArrayList<String> res = Main.getWordLadderBFS("green", "money");
+		for (int i = 0; i < res.size()-1; i++) {
+			assertTrue(Main.differ_by_One(res.get(i), res.get(i+1)));
+		}
+	}
+	
+	@Test(timeout = 10000)
+	public void BFS_time_test() {
+		ArrayList<String> res1 = Main.getWordLadderBFS("lycra", "godly");
+		ArrayList<String> res2 = Main.getWordLadderBFS("lycra", "godly");
+		ArrayList<String> res3 = Main.getWordLadderBFS("lycra", "godly");
+		ArrayList<String> res4 = Main.getWordLadderBFS("lycra", "godly");
+		ArrayList<String> res5 = Main.getWordLadderBFS("lycra", "godly");
+	}
+	
+	public void BFS_same_word() {
+		ArrayList<String> res = Main.getWordLadderBFS("money", "money");
+		assertTrue(res.size() == 2 && res.get(0) == res.get(1));
+	}
+	
+	@Test(timeout = 30000)
+	public void DFS_no_ladder() {
+		ArrayList<String> res = Main.getWordLadderDFS("duvet", "aloof");
+		assertTrue(res.size() == 2 && res.get(0) == "duvet" && res.get(1) == "aloof");
+	}
+	
+	@Test
+	public void DFS_valid_ladder() {
+		ArrayList<String> res = Main.getWordLadderDFS("green", "money");
+		for (int i = 0; i < res.size()-1; i++) {
+			assertTrue(Main.differ_by_One(res.get(i), res.get(i+1)));
+		}
+	}
+	
+	@Test
+	public void DFS_same_word() {
+		ArrayList<String> res = Main.getWordLadderDFS("money", "money");
+		assertTrue(res.size() == 2 && res.get(0) == res.get(1));
+	}
+	
+	@Test (timeout = 10000)
+	public void DFS_time_test() {
+		ArrayList<String> res1 = Main.getWordLadderDFS("lycra", "godly");
+		ArrayList<String> res2 = Main.getWordLadderDFS("lycra", "godly");
+		ArrayList<String> res3 = Main.getWordLadderDFS("lycra", "godly");
+		ArrayList<String> res4 = Main.getWordLadderDFS("lycra", "godly");
+		ArrayList<String> res5 = Main.getWordLadderDFS("lycra", "godly");
+	}
 
 	@Test(timeout = 30000)
 	public void testPrintLadder() {

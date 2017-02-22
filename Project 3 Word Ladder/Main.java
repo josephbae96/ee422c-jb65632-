@@ -37,25 +37,68 @@ public class Main {
 		}
 		initialize();
 		
-		ArrayList<String> words = parse(kb);
+		//ArrayList<String> words = parse(kb);
 		
-		while (words != null) {
+		/*while (words != null) {
 			ArrayList<String> ladder = getWordLadderDFS(words.get(0), words.get(1));
 			printLadder(ladder);
-			/*for (int i = 0; i < ladder.size()-1; i++) {
+			for (int i = 0; i < ladder.size()-1; i++) {
 				String s1 = ladder.get(i);
 				String s2 = ladder.get(i+1);
 				if(differ_by_One(s1,s2)) {
-					System.out.println("u good");
+					//System.out.println("u good");
 				} else {
 					System.out.println("u fukt up");
+					System.out.println(s1);
+					System.out.println(s2);
 				}
-			}*/
+			}
+			System.out.println("done");
 			words = parse(kb);
+		}*/
+		Set<String> dict = makeDictionary();
+		Iterator<String> i = dict.iterator();
+		int counter = 0;
+		while (i.hasNext() && counter < 5000) {
+			String s1 = i.next();
+			String s2 = i.next();
+			ArrayList<String> ladder1 = getWordLadderBFS(s1, s2);
+			ArrayList<String> ladder2 = getWordLadderDFS(s1, s2);
+			for (int j = 0; j < ladder1.size()-1; j++) {
+				String s11 = ladder1.get(j);
+				String s22 = ladder1.get(j+1);
+				if (!differ_by_One(s11, s22) && (ladder1.size() > 2)) {
+					System.out.print("u fukt up BFS word ladder for: ");
+					System.out.print(s1);
+					System.out.print(" ");
+					System.out.println(s2);
+					System.out.print(s11);
+					System.out.print(" ");
+					System.out.println(s22);
+				}
+			}
+			for (int j = 0; j < ladder2.size()-1; j++) {
+				String s11 = ladder2.get(j);
+				String s22 = ladder2.get(j);
+				if (!differ_by_One(s11, s22) && (ladder2.size() > 2)) {
+					System.out.print("u fukt up DFS word ladder for: ");
+					System.out.print(s1);
+					System.out.print(" ");
+					System.out.println(s2);
+					System.out.print(s11);
+					System.out.print(" ");
+					System.out.println(s22);
+				}
+			}
+			counter += 1;
+			if (counter % 100 == 0) {
+				System.out.println(counter + " tests done so far!");
+			}
 		}
+		System.out.println("testing done");
 	}
 	
-	/*public static boolean differ_by_One (String s1, String s2) {
+	public static boolean differ_by_One (String s1, String s2) {
 		int diff = 0;
 		for (int i = 0; i < s1.length(); i++) {
 			if (s1.charAt(i) != s2.charAt(i)) {
@@ -66,7 +109,7 @@ public class Main {
 			}
 		}
 		return true;
-	}*/
+	}
 	
 	public static void initialize() {
 		// initialize your static variables or constants here.

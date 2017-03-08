@@ -111,7 +111,6 @@ public abstract class Critter {
 			}
 		}
 	}
-	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
 	}

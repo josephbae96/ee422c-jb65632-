@@ -53,6 +53,33 @@ public abstract class Critter {
 	private int y_coord;
 	
 	protected final void walk(int direction) {
+		energy -= Params.walk_energy_cost;
+		boolean hasWalkedBefore = false;
+		
+		if(!hasWalkedBefore){
+			switch(direction){
+				case 0:	x_coord ++;
+						break;
+				case 1:	x_coord ++;
+						y_coord --;
+						break;
+				case 2:	y_coord--;
+						break;
+				case 3:	x_coord --;
+						y_coord --;
+						break;
+				case 4: x_coord --;
+						break;
+				case 5: x_coord --;
+						y_coord ++;
+						break;
+				case 6: y_coord ++;
+						break;
+				case 7: x_coord ++;
+						y_coord ++;
+						break;
+			}
+		}
 	}
 	
 	protected final void run(int direction) {

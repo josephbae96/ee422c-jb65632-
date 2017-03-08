@@ -1,5 +1,7 @@
 package assignment4;
 
+import java.util.List;
+
 /* Critters 1 Main.java
  * EE422C Project 4 submission by
  * Replace <...> with your actual data.
@@ -16,6 +18,7 @@ package assignment4;
 
 import java.util.Scanner;
 import java.io.*;
+import java.lang.reflect.Method;
 
 
 /*
@@ -71,7 +74,90 @@ public class Main {
 
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
+        boolean shouldExit = true;
+        Scanner kb  = new Scanner(System.in);
         
+        while(shouldExit){
+        	System.out.print("critters>");
+        	String response = kb.nextLine();
+        	String [] inputArray = response.split("\\s+");
+        	
+        	try{
+        		switch(inputArray[0]){
+        			case "quit": 
+        				if (inputArray.length > 1){
+        					throw new Exception();
+        				}
+        				shouldExit = false;
+        				break;
+        	
+        			case "show": 
+        				if (inputArray.length> 1){
+        					throw new Exception();
+        				}
+        				Critter.displayWorld();
+        				break;
+        				
+        			case "step":
+        				if (inputArray.length == 1){
+        					Critter.worldTimeStep();
+        				}
+        				else if (inputArray.length > 2){
+        					throw new Exception();
+        				}
+        				else if (inputArray.length == 2){
+        					int countNumber = Integer.parseInt(inputArray[1]);
+        					for(int i = 0; i < countNumber; i ++){
+        						Critter.worldTimeStep();
+        					}
+        				}
+        				else{
+        					throw new Exception();
+        				}
+        				break;
+        				
+        			case "seed":
+        				if (inputArray.length == 1){
+        					Critter.setSeed(Integer.parseInt(inputArray[1]));
+        				}
+        				else{
+        					throw new Exception();
+        				}
+        				break;
+        				
+        			case "make": 
+        				if (inputArray.length == 1){
+        					Critter.makeCritter(inputArray[0]);
+        				}
+        				else if(inputArray.length == 2){
+        					for(int i = 0; i < Integer.parseInt(inputArray[1]); i++){
+        						Critter.makeCritter(inputArray[0]);
+        					}
+        				}
+        				else {
+        					throw new Exception();
+        				}
+        				break;
+        				
+        			case "stats":	
+        				if(inputArray.length == 1){
+        					Class<?> critters = Class.forName(myPackage + "." + inputArray[1]);//retrieves the class from the string
+        			        Method meth = critters.getMethod("runStats", List.class);    //this method runs the getMethod from critters
+        			        meth.invoke(null, Critter.getInstances(inputArray[1])); //finally, the getInstances is called and uses the critter class that the user specified
+        				}
+        				else{
+        					throw new Exception();
+        				}
+        				break;
+        				
+        			default:
+        				System.out.println("invalid command: " + response);
+        			}
+        	}
+        	catch  (Exception e){
+        		System.out.println("error processing " + response);
+        	}
+        }     
         // System.out.println("GLHF");
         
         /* Write your code above */

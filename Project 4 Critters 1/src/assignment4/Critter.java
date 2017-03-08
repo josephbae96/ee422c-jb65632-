@@ -83,7 +83,34 @@ public abstract class Critter {
 	}
 	
 	protected final void run(int direction) {
+		energy -= Params.run_energy_cost;
+		boolean hasRanBefore = false;
 		
+		if(!hasRanBefore){
+			switch(direction){
+				case 0:	x_coord += 2;
+						break;
+				case 1:	x_coord += 2;
+						y_coord -= 2;
+						break;
+				case 2:	y_coord -= 2;
+						break;
+				case 3:	x_coord -= 2;
+						y_coord -= 2;
+						break;
+				case 4: x_coord -= 2;
+						break;
+				case 5: x_coord -= 2;
+						y_coord += 2;
+						break;
+				case 6: y_coord += 2;
+						break;
+				case 7: x_coord += 2;
+						y_coord += 2;
+						break;
+			}
+		}
+	}
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {

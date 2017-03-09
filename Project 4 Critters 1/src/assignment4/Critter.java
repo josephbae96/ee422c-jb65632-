@@ -201,6 +201,34 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+        Critter critters;
+        try{
+            Class<?> mycritter = Class.forName(Critter.myPackage +"."+ critter_class_name);
+            critters = (Critter)mycritter.newInstance();
+            
+        }
+        catch(Exception e){
+            
+            throw new InvalidCritterException(critter_class_name);
+        }
+        critters.x_coord=Critter.getRandomInt(Params.world_width);
+        if(critters.x_coord==0)  {
+            critters.x_coord=critters.x_coord+Params.world_width;
+        }
+        if(critters.x_coord==Params.world_width+1)  {
+            critters.x_coord=critters.x_coord-Params.world_width;
+        }
+        critters.y_coord=Critter.getRandomInt(Params.world_height);
+        if(critters.y_coord==0)  {
+            critters.y_coord=critters.y_coord+Params.world_height;
+        }
+        if(critters.y_coord==Params.world_height+1)  {
+            critters.y_coord=critters.y_coord-Params.world_height;
+        }
+        critters.energy=Params.start_energy;
+        population.add(critters);
+        
+        
 	}
 	
 	/**
@@ -210,9 +238,17 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
-		List<Critter> result = new java.util.ArrayList<Critter>();
-	
-		return result;
+        List<Critter> result = new java.util.ArrayList<Critter>();
+        for (Critter x : population) {
+            try {
+                if (x.getClass().equals(Class.forName(Critter.myPackage + "." + critter_class_name))) {
+                    result.add(x);
+                }
+            } catch (ClassNotFoundException e) {
+                throw new InvalidCritterException(critter_class_name);
+            }
+        }
+        return result;
 	}
 	
 	/**

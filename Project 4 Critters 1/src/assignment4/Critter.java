@@ -53,60 +53,132 @@ public abstract class Critter {
 	private int y_coord;
 	
 	protected final void walk(int direction) {
-		energy -= Params.walk_energy_cost;
+		this.energy -= Params.walk_energy_cost;
 		boolean hasWalkedBefore = false;
 		
 		if(!hasWalkedBefore){
 			switch(direction){
-				case 0:	x_coord ++;
+				case 0:	this.x_coord ++;
+						if (this.x_coord > Params.world_width){
+							this.x_coord = this.x_coord%Params.world_width;
+						}
 						break;
-				case 1:	x_coord ++;
-						y_coord --;
+				case 1:	this.x_coord ++;
+						this.y_coord --;
+						if (this.x_coord > Params.world_width){
+							this.x_coord = this.x_coord%Params.world_width;
+						}
+						if (this.y_coord <= 0){
+							this.y_coord = Params.world_height + this.y_coord;
+						}
 						break;
-				case 2:	y_coord--;
+				case 2:	this.y_coord--;
+					if (this.y_coord <= 0){
+						this.y_coord = Params.world_height + this.y_coord;
+					}
 						break;
-				case 3:	x_coord --;
-						y_coord --;
+				case 3:	this.x_coord --;
+						this.y_coord --;
+						if (this.x_coord <= 0){
+							this.x_coord = Params.world_width + this.x_coord;
+						}
+						if (this.y_coord <= 0){
+							this.y_coord = Params.world_height + this.y_coord;
+						}
 						break;
-				case 4: x_coord --;
+				case 4: this.x_coord --;
+					if (this.x_coord <= 0){
+						this.x_coord = Params.world_width + this.x_coord;
+					}
 						break;
-				case 5: x_coord --;
-						y_coord ++;
+				case 5: this.x_coord --;
+						this.y_coord ++;
+						if (this.x_coord <= 0){
+							this.x_coord = Params.world_width + this.x_coord;
+						}
+						if (this.y_coord > Params.world_height){
+							this.y_coord = this.y_coord%Params.world_height;
+						}
 						break;
-				case 6: y_coord ++;
+				case 6: this.y_coord ++;
+						if (this.y_coord > Params.world_height){
+							this.y_coord = this.y_coord%Params.world_height;
+						}
 						break;
-				case 7: x_coord ++;
-						y_coord ++;
+				case 7: this.x_coord ++;
+						this.y_coord ++;
+						if (this.x_coord > Params.world_width){
+							this.x_coord = this.x_coord%Params.world_width;
+						}
+						if (this.y_coord > Params.world_height){
+							this.y_coord = this.y_coord%Params.world_height;
+						}
 						break;
 			}
 		}
 	}
 	
 	protected final void run(int direction) {
-		energy -= Params.run_energy_cost;
+		this.energy -= Params.run_energy_cost;
 		boolean hasRanBefore = false;
 		
 		if(!hasRanBefore){
 			switch(direction){
-				case 0:	x_coord += 2;
+				case 0:	this.x_coord += 2;
+					if (this.x_coord > Params.world_width){
+						this.x_coord = this.x_coord%Params.world_width;
+					}
+				break;
+				case 1:	this.x_coord += 2;
+						this.y_coord -= 2;
+						if (this.x_coord > Params.world_width){
+							this.x_coord = this.x_coord%Params.world_width;
+						}
+						if (this.y_coord <= 0){
+							this.y_coord = Params.world_height + this.y_coord;
+						}
 						break;
-				case 1:	x_coord += 2;
-						y_coord -= 2;
+				case 2:	this.y_coord -= 2;
+						if (this.y_coord <= 0){
+							this.y_coord = Params.world_height + this.y_coord;
+						}
 						break;
-				case 2:	y_coord -= 2;
+				case 3:	this.x_coord -= 2;
+						this.y_coord -= 2;
+						if (this.x_coord <= 0){
+							this.x_coord = Params.world_width + this.x_coord;
+						}
+						if (this.y_coord <= 0){
+							this.y_coord = Params.world_height + this.y_coord;
+						}
 						break;
-				case 3:	x_coord -= 2;
-						y_coord -= 2;
+				case 4: this.x_coord -= 2;
+						if (this.x_coord <= 0){
+							this.x_coord = Params.world_width + this.x_coord;
+						}
 						break;
-				case 4: x_coord -= 2;
+				case 5: this.x_coord -= 2;
+						this.y_coord += 2;
+						if (this.x_coord <= 0){
+							this.x_coord = Params.world_width + this.x_coord;
+						}
+						if (this.y_coord > Params.world_height){
+							this.y_coord = this.y_coord%Params.world_height;
+						}
 						break;
-				case 5: x_coord -= 2;
-						y_coord += 2;
+				case 6: this.y_coord += 2;
+						if (this.y_coord > Params.world_height){
+							this.y_coord = this.y_coord%Params.world_height;
+						}
 						break;
-				case 6: y_coord += 2;
-						break;
-				case 7: x_coord += 2;
-						y_coord += 2;
+				case 7: this.x_coord += 2;
+						this.y_coord += 2;
+						if (this.x_coord > Params.world_width){
+							this.x_coord = this.x_coord%Params.world_width;
+						}
+						if (this.y_coord > Params.world_height){
+							this.y_coord = this.y_coord%Params.world_height;
+						}
 						break;
 			}
 		}

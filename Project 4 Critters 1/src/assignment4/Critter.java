@@ -25,6 +25,7 @@ import java.util.List;
 
 public abstract class Critter {
 	private static String myPackage;
+	private boolean hasMoved = false;
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
 
@@ -54,9 +55,8 @@ public abstract class Critter {
 	
 	protected final void walk(int direction) {
 		this.energy -= Params.walk_energy_cost;
-		boolean hasWalkedBefore = false;
 		
-		if(!hasWalkedBefore){
+		if(!hasMoved){
 			switch(direction){
 				case 0:	this.x_coord ++;
 						if (this.x_coord > Params.world_width){
@@ -115,14 +115,14 @@ public abstract class Critter {
 						}
 						break;
 			}
+			hasMoved = true;
 		}
 	}
 	
 	protected final void run(int direction) {
 		this.energy -= Params.run_energy_cost;
-		boolean hasRanBefore = false;
-		
-		if(!hasRanBefore){
+	
+		if(!hasMoved){
 			switch(direction){
 				case 0:	this.x_coord += 2;
 					if (this.x_coord > Params.world_width){
@@ -181,6 +181,7 @@ public abstract class Critter {
 						}
 						break;
 			}
+			hasMoved = true;
 		}
 	}
 	
@@ -205,10 +206,8 @@ public abstract class Critter {
         try{
             Class<?> mycritter = Class.forName(Critter.myPackage +"."+ critter_class_name);
             critters = (Critter)mycritter.newInstance();
-            
         }
         catch(Exception e){
-            
             throw new InvalidCritterException(critter_class_name);
         }
         critters.x_coord=Critter.getRandomInt(Params.world_width);
@@ -336,6 +335,12 @@ public abstract class Critter {
 	
 	public static void worldTimeStep() {
 		// Complete this method.
+		
+		
+		//clears the fact that the critters moved, should be last
+		for(Critter c : population){			
+			c.hasMoved = false;
+		}
 	}
 	
 	public static void displayWorld() {

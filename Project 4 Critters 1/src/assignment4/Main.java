@@ -3,16 +3,16 @@ package assignment4;
 import java.util.List;
 
 /* Critters 1 Main.java
-  * EE422C Project 4 submission by
+ * EE422C Project 4 submission by
  * Replace <...> with your actual data.
- * Vibhu Appalaraju
- * vka249
- * 16235
- * Joseph Bae
- * jb65632
- * 16235
- * Git URL: https://github.com/josephbae96/ee422c-jb65632-.git
+ * <Joseph Bae>
+ * <jb65632>
+ * <16235>
+ * <Vibhu Appalaraju>
+ * <vka249>
+ * <16235>
  * Slip days used: <0>
+ * Git URL: https://github.com/josephbae96/ee422c-jb65632-.git
  * Spring 2017
  */
 
@@ -75,7 +75,7 @@ public class Main {
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
         boolean shouldExit = true;
-        Scanner kb  = new Scanner(System.in);
+       // Scanner kb  = new Scanner(System.in);
         
         while(shouldExit){
         	System.out.print("critters>");
@@ -155,7 +155,7 @@ public class Main {
         			}
         	}
         	catch  (Exception e){
-        		System.out.println("error processing " + response);
+        		System.out.println("error processing: " + response);
         	}
         }     
         // System.out.println("GLHF");

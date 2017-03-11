@@ -391,55 +391,20 @@ public abstract class Critter {
 	 */
 	public static void clearWorld() {
 		// Complete this method.
-		String[][] displayofmyworld = new String[Params.world_width + 2][Params.world_height + 2];
-		displayofmyworld[0][0] = "+";
-		displayofmyworld[Params.world_width + 1][0] = "+";
-		displayofmyworld[0][Params.world_height + 1] = "+";
-		displayofmyworld[Params.world_width + 1][Params.world_height + 1] = "+";
-		String dash = new String("-");
-		String verticalbar = new String("|");
-
-		for (int x = 0; x < Params.world_height + 1; x++) {
-			 if (x != 0 && x != Params.world_height + 1) {
-				displayofmyworld[0][x] = verticalbar;
-				displayofmyworld[Params.world_width + 1][x] = verticalbar;
-			}
-		}
-
-		for (int x = 0; x < Params.world_width + 1; x++) {
-			 if (x != 0 && x != Params.world_width + 1) {
-				displayofmyworld[x][0] = dash;
-				displayofmyworld[x][Params.world_height + 1] = dash;
-			}
-		}
-
-		for (int y = 1; y < Params.world_height + 1; y++) {
-			for (int x = 1; x < Params.world_width + 1; x++) {
-				displayofmyworld[x][y] = " ";
-			}
-		}
-
-		for (int y =0; y<Params.world_height + 2; y++) {
-			for (int x = 0; x < Params.world_width + 2; x++) {
-				if (x == Params.world_width + 1) {
-					System.out.println(displayofmyworld[x][y]);
-				} else {
-					System.out.print(displayofmyworld[x][y]);
-				}
-			}
-		}
+		population.clear();
+		
 	}
 	
 	public static void worldTimeStep() {
 		for(Critter mybbycritter:population){
 			mybbycritter.doTimeStep();
 		}
-		for(int y=0;y<population.size();y++){
-			if(population.get(y).getEnergy()==0){
-				population.remove(y);
-				y--;
-			}
-		}
+//		for(int y=0;y<population.size();y++){
+//			if(population.get(y).getEnergy()==0){
+//				population.remove(y);
+//				y--;
+//			}
+//		}
 		
 		for(int i=0; i<population.size();i++){
 			Critter C=population.get(i);
@@ -460,6 +425,7 @@ public abstract class Critter {
 				else if((C.x_coord==Ch.x_coord) &&(C.y_coord==Ch.y_coord)) {
 					boolean firstfight = C.fight(Ch.toString());
 					boolean secondfight = Ch.fight(C.toString());
+					if((C.x_coord==Ch.x_coord) &&(C.y_coord==Ch.y_coord)){
 					if(firstfight && secondfight){	
 						int roll1 = Critter.getRandomInt(C.energy);
 						int roll2 = Critter.getRandomInt(Ch.energy);
@@ -488,6 +454,7 @@ public abstract class Critter {
 						i=0;
 						break;
 					}		
+				}
 				}
 			}	
 		}

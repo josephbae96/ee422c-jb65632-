@@ -26,6 +26,8 @@ import java.lang.reflect.Method;
  * input file is optional.  If input file is specified, the word 'test' is optional.
  * May not use 'test' argument without specifying input file.
  */
+
+
 public class Main {
 
     static Scanner kb;	// scanner connected to keyboard input, or input file
@@ -42,9 +44,11 @@ public class Main {
     }
 
     /**
-     * Main method.
+     * Main method. Checks a file for input and depending on which command the user inputs, calls the appropriate method.
+     * If the user input is wrong, then it throws the appropriate exceptions
      * @param args args can be empty.  If not empty, provide two parameters -- the first is a file name, 
      * and the second is test (for test output, where all output to be directed to a String), or nothing.
+     * @throws invalid command: or error processed: exceptions
      */
     public static void main(String[] args) { 
         if (args.length != 0) {

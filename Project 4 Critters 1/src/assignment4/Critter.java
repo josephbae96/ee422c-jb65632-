@@ -1,3 +1,4 @@
+
 package assignment4;
 /* CRITTERS Critter.java
  * EE422C Project 4 submission by
@@ -23,8 +24,8 @@ import java.util.List;
 
 public abstract class Critter {
 	private static String myPackage;
-	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private boolean hasMoved = false;
+	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
 
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
@@ -52,7 +53,7 @@ public abstract class Critter {
 	private int y_coord;
 	
 	protected final void walk(int direction) {
-this.energy -= Params.walk_energy_cost;
+		this.energy -= Params.walk_energy_cost;
 		
 		if(!hasMoved){
 			switch(direction){
@@ -114,7 +115,8 @@ this.energy -= Params.walk_energy_cost;
 						break;
 			}
 			hasMoved = true;
-		}}
+		}
+	}
 	
 	protected final void run(int direction) {
 		this.energy -= Params.run_energy_cost;
@@ -195,7 +197,7 @@ this.energy -= Params.walk_energy_cost;
 		}
 		offspring.x_coord=this.x_coord;
 		offspring.y_coord=this.y_coord;		
-		offspring.energy=offspring.energy +Params.walk_energy_cost;
+		offspring.energy=offspring.energy + Params.walk_energy_cost;
 		offspring.walk(direction);
 		
 			babies.add(offspring);
@@ -215,33 +217,75 @@ this.energy -= Params.walk_energy_cost;
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
-		Critter critters;
-		try{
-			Class<?> mycritter = Class.forName(Critter.myPackage +"."+ critter_class_name);
-			critters = (Critter)mycritter.newInstance();
-			
-		}
-		catch(Exception e){
-			
-			throw new InvalidCritterException(critter_class_name);
-		}
-		critters.x_coord=Critter.getRandomInt(Params.world_width);
-		if(critters.x_coord==0)  {
-			critters.x_coord=critters.x_coord+Params.world_width;
-		}
-		if(critters.x_coord==Params.world_width+1)  {
-			critters.x_coord=critters.x_coord-Params.world_width;
-		}
-		critters.y_coord=Critter.getRandomInt(Params.world_height);
-		if(critters.y_coord==0)  {
-			critters.y_coord=critters.y_coord+Params.world_height;
-		}
-		if(critters.y_coord==Params.world_height+1)  {
-			critters.y_coord=critters.y_coord-Params.world_height;
-		}
-		critters.energy=Params.start_energy;
-		population.add(critters);
+//		Critter critters;
+//		try{
+//			Class<?> mycritter = Class.forName(Critter.myPackage +"."+ critter_class_name);
+//			critters = (Critter)mycritter.newInstance();
+//			
+//		}
+//		catch(Exception e){
+//			throw new InvalidCritterException(critter_class_name);
+//		}
+//		critters.x_coord=Critter.getRandomInt(Params.world_width);
+//		while(critters.x_coord==0 || critters.x_coord== Params.world_width){
+//			critters.x_coord=Critter.getRandomInt(Params.world_width);
+//		}
+//		critters.y_coord=Critter.getRandomInt(Params.world_height);
+//		while(critters.y_coord==0 || critters.y_coord== Params.world_height){
+//			critters.y_coord=Critter.getRandomInt(Params.world_height);
+//		}
+//		critters.energy=Params.start_energy;
+//		population.add(critters);
 		
+		Critter critters;
+
+		try{
+
+		Class<?> mycritter = Class.forName(Critter.myPackage +"."+ critter_class_name);
+
+		critters = (Critter)mycritter.newInstance();
+
+
+		}
+
+		catch(Exception e){
+
+
+		throw new InvalidCritterException(critter_class_name);
+
+		}
+
+		critters.x_coord=Critter.getRandomInt(Params.world_width);
+
+		if(critters.x_coord==0)  {
+
+		critters.x_coord=critters.x_coord+Params.world_width;
+
+		}
+
+		if(critters.x_coord==Params.world_width+1)  {
+
+		critters.x_coord=critters.x_coord-Params.world_width;
+
+		}
+
+		critters.y_coord=Critter.getRandomInt(Params.world_height);
+
+		if(critters.y_coord==0)  {
+
+		critters.y_coord=critters.y_coord+Params.world_height;
+
+		}
+
+		if(critters.y_coord==Params.world_height+1)  {
+
+		critters.y_coord=critters.y_coord-Params.world_height;
+
+		}
+
+		critters.energy=Params.start_energy;
+
+		population.add(critters);
 	}
 	
 	/**
@@ -253,13 +297,14 @@ this.energy -= Params.walk_energy_cost;
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
 		for (Critter x : population) {
-		try {
-		if (x.getClass().equals(Class.forName(Critter.myPackage + "." + critter_class_name))) {
-		result.add(x);
-		}
-		} catch (ClassNotFoundException e) {
-		throw new InvalidCritterException(critter_class_name);
-		}
+			try {
+				if (x.getClass().equals(Class.forName(Critter.myPackage + "." + critter_class_name))) {
+					result.add(x);
+				}
+			} 
+			catch (ClassNotFoundException e) {
+				throw new InvalidCritterException(critter_class_name);
+			}
 		}
 		return result;
 	}
@@ -318,7 +363,6 @@ this.energy -= Params.walk_energy_cost;
 		protected int getY_coord() {
 			return super.y_coord;
 		}
-		
 
 		/*
 		 * This method getPopulation has to be modified by you if you are not using the population
@@ -354,62 +398,45 @@ this.energy -= Params.walk_energy_cost;
 		String verticalbar = new String("|");
 
 		for (int x = 0; x < Params.world_height + 1; x++) {
-
 			 if (x != 0 && x != Params.world_height + 1) {
-
 				displayofmyworld[0][x] = verticalbar;
 				displayofmyworld[Params.world_width + 1][x] = verticalbar;
-
 			}
-
 		}
 
 		for (int x = 0; x < Params.world_width + 1; x++) {
-
 			 if (x != 0 && x != Params.world_width + 1) {
-
 				displayofmyworld[x][0] = dash;
 				displayofmyworld[x][Params.world_height + 1] = dash;
-
 			}
-
 		}
 
 		for (int y = 1; y < Params.world_height + 1; y++) {
 			for (int x = 1; x < Params.world_width + 1; x++) {
 				displayofmyworld[x][y] = " ";
-
 			}
 		}
 
 		for (int y = Params.world_height + 1; y >= 0; y--) {
 			for (int x = 0; x < Params.world_width + 2; x++) {
-
 				if (x == Params.world_width + 1) {
 					System.out.println(displayofmyworld[x][y]);
-
 				} else {
 					System.out.print(displayofmyworld[x][y]);
 				}
-
 			}
 		}
-		
-
-		
 	}
 	
 	public static void worldTimeStep() {
 		for(Critter mybbycritter:population){
 			mybbycritter.doTimeStep();
-			
 		}
 		for(int y=0;y<population.size();y++){
 			if(population.get(y).getEnergy()==0){
 				population.remove(y);
 				y--;
 			}
-			
 		}
 		
 		for(int i=0; i<population.size();i++){
@@ -420,9 +447,7 @@ this.energy -= Params.walk_energy_cost;
 				else if((C.x_coord==Ch.x_coord) &&(C.y_coord==Ch.y_coord)) {
 					boolean firstfight = C.fight(Ch.toString());
 					boolean secondfight = Ch.fight(C.toString());
-					if((C.x_coord==Ch.x_coord) &&(C.y_coord==Ch.y_coord)){
-					if(firstfight && secondfight){
-						
+					if(firstfight && secondfight){	
 						int roll1 = Critter.getRandomInt(C.energy);
 						int roll2 = Critter.getRandomInt(Ch.energy);
 						if(roll1>=roll2){
@@ -449,31 +474,19 @@ this.energy -= Params.walk_energy_cost;
 						population.remove(i);
 						i=0;
 						break;
-					}
-			
-					}
-					
+					}		
 				}
-			
-				
-				
-				
-				
-			}
-			
+			}	
 		}
 		for(Critter mybbycritter:population){
 			mybbycritter.energy = mybbycritter.energy - Params.rest_energy_cost;
-			
 		}
-		
 		
 		for(int y=0;y<population.size();y++){
 			if(population.get(y).getEnergy()==0){
 				population.remove(y);
 				y--;
 			}
-			
 		}
 		for(int i = 0; i < Params.refresh_algae_count; i++){								//generate algae
 			try{
@@ -486,13 +499,17 @@ this.energy -= Params.walk_energy_cost;
 		
 		for(Critter baby:babies){
 			population.add(baby);
-			
 		}
+		
+		
 		babies.clear();
+//		for(Critter c : population){			
+//			c.hasMoved = false;
+//		}
 		//displayWorld();
 		
 		// Complete this method.
-	}
+	} // end of world time step
 	
 	public static void displayWorld() {
 		
@@ -505,12 +522,9 @@ this.energy -= Params.walk_energy_cost;
 		String verticalbar = new String("|");
 
 		for (int x = 0; x < Params.world_height + 1; x++) {
-
 			 if (x != 0 && x != Params.world_height + 1) {
-
 				displayofmyworld[0][x] = verticalbar;
 				displayofmyworld[Params.world_width + 1][x] = verticalbar;
-
 			}
 
 		}
@@ -521,24 +535,18 @@ this.energy -= Params.walk_energy_cost;
 
 				displayofmyworld[x][0] = dash;
 				displayofmyworld[x][Params.world_height + 1] = dash;
-
 			}
-
 		}
 
 		for (int y = 1; y < Params.world_height + 1; y++) {
 			for (int x = 1; x < Params.world_width + 1; x++) {
 				displayofmyworld[x][y] = " ";
-
 			}
 		}
 		
 		for(int i=0;i<population.size();i++){
-			displayofmyworld[population.get(i).x_coord][Params.world_height - population.get(i).y_coord]=population.get(i).toString();
-			
-			
+			displayofmyworld[population.get(i).x_coord][population.get(i).y_coord]=population.get(i).toString();	
 		}
-		
 
 		for (int y = Params.world_height + 1; y >= 0; y--) {
 			for (int x = 0; x < Params.world_width + 2; x++) {
@@ -549,14 +557,8 @@ this.energy -= Params.walk_energy_cost;
 				} else {
 					System.out.print(displayofmyworld[x][y]);
 				}
-
 			}
-		}
-		
-
-			
-			
-		
-			
+		}	
 	}
 }
+

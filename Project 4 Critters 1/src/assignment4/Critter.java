@@ -415,12 +415,12 @@ public abstract class Critter {
 		for(Critter mybbycritter:population){
 			mybbycritter.doTimeStep();
 		}
-//		for(int y=0;y<population.size();y++){
-//			if(population.get(y).getEnergy()==0){
-//				population.remove(y);
-//				y--;
-//			}
-//		}
+		for(int y=0;y<population.size();y++){
+			if(population.get(y).getEnergy()==0){
+				population.remove(y);
+				y--;
+			}
+		}
 		
 		for(int i=0; i<population.size();i++){
 			Critter C=population.get(i);

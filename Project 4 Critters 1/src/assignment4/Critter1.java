@@ -18,6 +18,7 @@ import java.util.*;
 
 public class Critter1 extends Critter {
 
+	//Critter1 will print a 1 to show where it exists
 	public String toString() {
 		return "1";
 	}
@@ -26,6 +27,8 @@ public class Critter1 extends Critter {
 	private int[] genes = new int[8];
 	private int dir;
 	
+	//constructor for critter 1, puts in 4 into each gene from 0-7 on which direction they'll go
+	//dir will hold a random integer up to 8
 	public Critter1() {
 		for (int k = 0; k < 8; k += 1) {
 			genes[k] = GENE_TOTAL / 8;
@@ -33,11 +36,13 @@ public class Critter1 extends Critter {
 		dir = Critter.getRandomInt(8);
 	}
 
+	//fight method for Critter 1, will try to fight opponent no matter what
 	@Override
 	public boolean fight(String opponent) {
 		return true;
 	}
 	
+	//doTimeStep for Critter1, will walk in direction of dir mod 8
 	public void doTimeStep() {
 		if(dir > 8){
 			dir = dir % 8;
@@ -45,6 +50,7 @@ public class Critter1 extends Critter {
 		walk(dir);
 	}
 	
+	//runstats of Critter1, shows what percentage Critter1 will try to go in a direction
 	public static void runStats(java.util.List<Critter> critter1) {
 		int total_straight = 0;
 		int total_left = 0;

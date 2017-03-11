@@ -257,6 +257,7 @@ public abstract class Critter {
 
 		critters.x_coord=Critter.getRandomInt(Params.world_width);
 
+				
 		if(critters.x_coord==0)  {
 
 		critters.x_coord=critters.x_coord+Params.world_width;
@@ -270,6 +271,7 @@ public abstract class Critter {
 		}
 
 		critters.y_coord=Critter.getRandomInt(Params.world_height);
+				
 
 		if(critters.y_coord==0)  {
 
@@ -417,7 +419,7 @@ public abstract class Critter {
 			}
 		}
 
-		for (int y = Params.world_height + 1; y >= 0; y--) {
+		for (int y =0; y<Params.world_height + 2; y++) {
 			for (int x = 0; x < Params.world_width + 2; x++) {
 				if (x == Params.world_width + 1) {
 					System.out.println(displayofmyworld[x][y]);
@@ -441,8 +443,19 @@ public abstract class Critter {
 		
 		for(int i=0; i<population.size();i++){
 			Critter C=population.get(i);
+			if (C.energy <= 0) {
+				population.remove(i);
+				i = 0;
+				continue;
+			}
 			for(int j=0;j<population.size();j++){
+			
 				Critter Ch=population.get(j);
+				if (Ch.energy <= 0) {
+					population.remove(j);
+					j = 0;
+					continue;
+				}
 				if(i==j){}
 				else if((C.x_coord==Ch.x_coord) &&(C.y_coord==Ch.y_coord)) {
 					boolean firstfight = C.fight(Ch.toString());
@@ -503,9 +516,9 @@ public abstract class Critter {
 		
 		
 		babies.clear();
-//		for(Critter c : population){			
-//			c.hasMoved = false;
-//		}
+		for(Critter c : population){			
+			c.hasMoved = false;
+		}
 		//displayWorld();
 		
 		// Complete this method.
@@ -548,7 +561,7 @@ public abstract class Critter {
 			displayofmyworld[population.get(i).x_coord][population.get(i).y_coord]=population.get(i).toString();	
 		}
 
-		for (int y = Params.world_height + 1; y >= 0; y--) {
+		for (int y =0; y<Params.world_height + 2; y++) {
 			for (int x = 0; x < Params.world_width + 2; x++) {
 
 				if (x == Params.world_width + 1) {

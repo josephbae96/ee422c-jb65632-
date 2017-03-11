@@ -1,17 +1,15 @@
 package assignment4;
-
-/* Critters 1 Critter.java
+/* CRITTERS Critter.java
  * EE422C Project 4 submission by
  * Replace <...> with your actual data.
- * <Joseph Bae>
- * <jb65632>
- * <16235>
- * <Vibhu Appalaraju>
- * <vka249>
- * <16235>
+ * <Student1 Name>
+ * <Student1 EID>
+ * <Student1 5-digit Unique No.>
+ * <Student2 Name>
+ * <Student2 EID>
+ * <Student2 5-digit Unique No.>
  * Slip days used: <0>
- * Git URL: https://github.com/josephbae96/ee422c-jb65632-.git
- * Spring 2017
+ * Fall 2016
  */
 
 
@@ -25,8 +23,8 @@ import java.util.List;
 
 public abstract class Critter {
 	private static String myPackage;
-	private boolean hasMoved = false;
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
+	private boolean hasMoved = false;
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
 
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
@@ -54,7 +52,7 @@ public abstract class Critter {
 	private int y_coord;
 	
 	protected final void walk(int direction) {
-		this.energy -= Params.walk_energy_cost;
+this.energy -= Params.walk_energy_cost;
 		
 		if(!hasMoved){
 			switch(direction){
@@ -116,12 +114,11 @@ public abstract class Critter {
 						break;
 			}
 			hasMoved = true;
-		}
-	}
+		}}
 	
 	protected final void run(int direction) {
 		this.energy -= Params.run_energy_cost;
-	
+		
 		if(!hasMoved){
 			switch(direction){
 				case 0:	this.x_coord += 2;
@@ -186,8 +183,24 @@ public abstract class Critter {
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
+		if(this.energy<Params.min_reproduce_energy){
+			return;
+		}
+		else{
+			offspring.energy=(this.energy)/2;
+			if(this.energy%2==1){
+				this.energy=((this.energy)/2)+1;
+			}
+			else{this.energy=((this.energy)/2); 
+		}
+		offspring.x_coord=this.x_coord;
+		offspring.y_coord=this.y_coord;		
+		offspring.energy=offspring.energy +Params.walk_energy_cost;
+		offspring.walk(direction);
+		
+			babies.add(offspring);
 	}
-
+	}
 	public abstract void doTimeStep();
 	public abstract boolean fight(String oponent);
 	
@@ -202,32 +215,33 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
-        Critter critters;
-        try{
-            Class<?> mycritter = Class.forName(Critter.myPackage +"."+ critter_class_name);
-            critters = (Critter)mycritter.newInstance();
-        }
-        catch(Exception e){
-            throw new InvalidCritterException(critter_class_name);
-        }
-        critters.x_coord=Critter.getRandomInt(Params.world_width);
-        if(critters.x_coord==0)  {
-            critters.x_coord=critters.x_coord+Params.world_width;
-        }
-        if(critters.x_coord==Params.world_width+1)  {
-            critters.x_coord=critters.x_coord-Params.world_width;
-        }
-        critters.y_coord=Critter.getRandomInt(Params.world_height);
-        if(critters.y_coord==0)  {
-            critters.y_coord=critters.y_coord+Params.world_height;
-        }
-        if(critters.y_coord==Params.world_height+1)  {
-            critters.y_coord=critters.y_coord-Params.world_height;
-        }
-        critters.energy=Params.start_energy;
-        population.add(critters);
-        
-        
+		Critter critters;
+		try{
+			Class<?> mycritter = Class.forName(Critter.myPackage +"."+ critter_class_name);
+			critters = (Critter)mycritter.newInstance();
+			
+		}
+		catch(Exception e){
+			
+			throw new InvalidCritterException(critter_class_name);
+		}
+		critters.x_coord=Critter.getRandomInt(Params.world_width);
+		if(critters.x_coord==0)  {
+			critters.x_coord=critters.x_coord+Params.world_width;
+		}
+		if(critters.x_coord==Params.world_width+1)  {
+			critters.x_coord=critters.x_coord-Params.world_width;
+		}
+		critters.y_coord=Critter.getRandomInt(Params.world_height);
+		if(critters.y_coord==0)  {
+			critters.y_coord=critters.y_coord+Params.world_height;
+		}
+		if(critters.y_coord==Params.world_height+1)  {
+			critters.y_coord=critters.y_coord-Params.world_height;
+		}
+		critters.energy=Params.start_energy;
+		population.add(critters);
+		
 	}
 	
 	/**
@@ -237,17 +251,17 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
-        List<Critter> result = new java.util.ArrayList<Critter>();
-        for (Critter x : population) {
-            try {
-                if (x.getClass().equals(Class.forName(Critter.myPackage + "." + critter_class_name))) {
-                    result.add(x);
-                }
-            } catch (ClassNotFoundException e) {
-                throw new InvalidCritterException(critter_class_name);
-            }
-        }
-        return result;
+		List<Critter> result = new java.util.ArrayList<Critter>();
+		for (Critter x : population) {
+		try {
+		if (x.getClass().equals(Class.forName(Critter.myPackage + "." + critter_class_name))) {
+		result.add(x);
+		}
+		} catch (ClassNotFoundException e) {
+		throw new InvalidCritterException(critter_class_name);
+		}
+		}
+		return result;
 	}
 	
 	/**
@@ -331,19 +345,218 @@ public abstract class Critter {
 	 */
 	public static void clearWorld() {
 		// Complete this method.
+		String[][] displayofmyworld = new String[Params.world_width + 2][Params.world_height + 2];
+		displayofmyworld[0][0] = "+";
+		displayofmyworld[Params.world_width + 1][0] = "+";
+		displayofmyworld[0][Params.world_height + 1] = "+";
+		displayofmyworld[Params.world_width + 1][Params.world_height + 1] = "+";
+		String dash = new String("-");
+		String verticalbar = new String("|");
+
+		for (int x = 0; x < Params.world_height + 1; x++) {
+
+			 if (x != 0 && x != Params.world_height + 1) {
+
+				displayofmyworld[0][x] = verticalbar;
+				displayofmyworld[Params.world_width + 1][x] = verticalbar;
+
+			}
+
+		}
+
+		for (int x = 0; x < Params.world_width + 1; x++) {
+
+			 if (x != 0 && x != Params.world_width + 1) {
+
+				displayofmyworld[x][0] = dash;
+				displayofmyworld[x][Params.world_height + 1] = dash;
+
+			}
+
+		}
+
+		for (int y = 1; y < Params.world_height + 1; y++) {
+			for (int x = 1; x < Params.world_width + 1; x++) {
+				displayofmyworld[x][y] = " ";
+
+			}
+		}
+
+		for (int y = Params.world_height + 1; y >= 0; y--) {
+			for (int x = 0; x < Params.world_width + 2; x++) {
+
+				if (x == Params.world_width + 1) {
+					System.out.println(displayofmyworld[x][y]);
+
+				} else {
+					System.out.print(displayofmyworld[x][y]);
+				}
+
+			}
+		}
+		
+
+		
 	}
 	
 	public static void worldTimeStep() {
-		// Complete this method.
-		
-		
-		//clears the fact that the critters moved, should be last
-		for(Critter c : population){			
-			c.hasMoved = false;
+		for(Critter mybbycritter:population){
+			mybbycritter.doTimeStep();
+			
 		}
+		for(int y=0;y<population.size();y++){
+			if(population.get(y).getEnergy()==0){
+				population.remove(y);
+				y--;
+			}
+			
+		}
+		
+		for(int i=0; i<population.size();i++){
+			Critter C=population.get(i);
+			for(int j=0;j<population.size();j++){
+				Critter Ch=population.get(j);
+				if(i==j){}
+				else if((C.x_coord==Ch.x_coord) &&(C.y_coord==Ch.y_coord)) {
+					boolean firstfight = C.fight(Ch.toString());
+					boolean secondfight = Ch.fight(C.toString());
+					if((C.x_coord==Ch.x_coord) &&(C.y_coord==Ch.y_coord)){
+					if(firstfight && secondfight){
+						
+						int roll1 = Critter.getRandomInt(C.energy);
+						int roll2 = Critter.getRandomInt(Ch.energy);
+						if(roll1>=roll2){
+							C.energy=C.energy + (Ch.energy)/2;
+							population.remove(j);
+							i=0;
+							break;
+						}
+						else{
+							Ch.energy=Ch.energy + (C.energy)/2;
+							population.remove(i);
+							i=0;
+							break;
+						}
+					}
+					else if(firstfight && !secondfight){
+						C.energy=C.energy + (Ch.energy)/2;
+						population.remove(j);
+						i=0;
+						break;
+					}
+					else if(!firstfight && secondfight){
+						Ch.energy=Ch.energy + (C.energy)/2;
+						population.remove(i);
+						i=0;
+						break;
+					}
+			
+					}
+					
+				}
+			
+				
+				
+				
+				
+			}
+			
+		}
+		for(Critter mybbycritter:population){
+			mybbycritter.energy = mybbycritter.energy - Params.rest_energy_cost;
+			
+		}
+		
+		
+		for(int y=0;y<population.size();y++){
+			if(population.get(y).getEnergy()==0){
+				population.remove(y);
+				y--;
+			}
+			
+		}
+		for(int i = 0; i < Params.refresh_algae_count; i++){								//generate algae
+			try{
+			Critter.makeCritter("Algae");
+			}
+			catch(InvalidCritterException e){
+				e.toString();
+			}
+		}
+		
+		for(Critter baby:babies){
+			population.add(baby);
+			
+		}
+		babies.clear();
+		//displayWorld();
+		
+		// Complete this method.
 	}
 	
 	public static void displayWorld() {
-		// Complete this method.
+		
+		String[][] displayofmyworld = new String[Params.world_width + 2][Params.world_height + 2];
+		displayofmyworld[0][0] = "+";
+		displayofmyworld[Params.world_width + 1][0] = "+";
+		displayofmyworld[0][Params.world_height + 1] = "+";
+		displayofmyworld[Params.world_width + 1][Params.world_height + 1] = "+";
+		String dash = new String("-");
+		String verticalbar = new String("|");
+
+		for (int x = 0; x < Params.world_height + 1; x++) {
+
+			 if (x != 0 && x != Params.world_height + 1) {
+
+				displayofmyworld[0][x] = verticalbar;
+				displayofmyworld[Params.world_width + 1][x] = verticalbar;
+
+			}
+
+		}
+
+		for (int x = 0; x < Params.world_width + 1; x++) {
+
+			 if (x != 0 && x != Params.world_width + 1) {
+
+				displayofmyworld[x][0] = dash;
+				displayofmyworld[x][Params.world_height + 1] = dash;
+
+			}
+
+		}
+
+		for (int y = 1; y < Params.world_height + 1; y++) {
+			for (int x = 1; x < Params.world_width + 1; x++) {
+				displayofmyworld[x][y] = " ";
+
+			}
+		}
+		
+		for(int i=0;i<population.size();i++){
+			displayofmyworld[population.get(i).x_coord][Params.world_height - population.get(i).y_coord]=population.get(i).toString();
+			
+			
+		}
+		
+
+		for (int y = Params.world_height + 1; y >= 0; y--) {
+			for (int x = 0; x < Params.world_width + 2; x++) {
+
+				if (x == Params.world_width + 1) {
+					System.out.println(displayofmyworld[x][y]);
+
+				} else {
+					System.out.print(displayofmyworld[x][y]);
+				}
+
+			}
+		}
+		
+
+			
+			
+		
+			
 	}
 }

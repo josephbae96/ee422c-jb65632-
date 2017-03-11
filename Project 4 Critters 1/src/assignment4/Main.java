@@ -117,7 +117,7 @@ public class Main {
         				break;
         				
         			case "seed":
-        				if (inputArray.length == 1){
+        				if (inputArray.length == 2){
         					Critter.setSeed(Integer.parseInt(inputArray[1]));
         				}
         				else{
@@ -126,12 +126,12 @@ public class Main {
         				break;
         				
         			case "make": 
-        				if (inputArray.length == 1){
-        					Critter.makeCritter(inputArray[0]);
+        				if (inputArray.length == 2){
+        					Critter.makeCritter(inputArray[1]);
         				}
-        				else if(inputArray.length == 2){
-        					for(int i = 0; i < Integer.parseInt(inputArray[1]); i++){
-        						Critter.makeCritter(inputArray[0]);
+        				else if(inputArray.length == 3){
+        					for(int i = 0; i < Integer.parseInt(inputArray[2]); i++){
+        						Critter.makeCritter(inputArray[1]);
         					}
         				}
         				else {
@@ -140,7 +140,7 @@ public class Main {
         				break;
         				
         			case "stats":	
-        				if(inputArray.length == 1){
+        				if(inputArray.length == 2){
         					Class<?> critters = Class.forName(myPackage + "." + inputArray[1]);//retrieves the class from the string
         			        Method meth = critters.getMethod("runStats", List.class);    //this method runs the getMethod from critters
         			        meth.invoke(null, Critter.getInstances(inputArray[1])); //finally, the getInstances is called and uses the critter class that the user specified

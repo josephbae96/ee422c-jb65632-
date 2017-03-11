@@ -3,14 +3,15 @@ package assignment4;
 /* CRITTERS Critter.java
  * EE422C Project 4 submission by
  * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
- * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
+ * Vibhu Appalaraju
+ * vka249
+ * 16235
+ * Joseph Bae
+ * jb65632
+ * 16235
+ * Git URL: https://github.com/josephbae96/ee422c-jb65632-.git
  * Slip days used: <0>
- * Fall 2016
+ * Spring 2017
  */
 
 
